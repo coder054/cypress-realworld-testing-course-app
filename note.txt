@@ -1,0 +1,70 @@
+ It's best practice not to chain anything after an action command; for more details on why this is, see our guide on
+ it('creates an item', () => {
+  cy.visit('/')
+
+  cy.focused() // query
+    .should('have.class', 'new-todo') // assertion
+
+  cy.get('.new-todo') // query
+    .type('todo A{enter}') // action // xxxx this is an action command, and it's should be the last (do not chain anything after that)
+
+  cy.get('.todoapp') // query
+    .find('.todo-list li') // query
+    .should('have.length', 1) // assertion
+})
+
+
+
+
+
+
+
+const features = cy.getByData("feature-name") // Cypress.Chainable<JQuery<HTMLElement>>
+const texts = features.invoke("text") // Cypress.Chainable<string>
+
+
+
+
+
+
+//////////////// working with within
+<div data-test="parent">
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+</div>
+<div data-test="parent">
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+</div>
+cy.getByData("child").should("have.length", 7)
+cy.getByData("parent")
+      .first()
+      .within(() => {
+        cy.getByData("child").should("have.length", 3)
+      })
+
+    cy.getByData("parent")
+      .eq(1)
+      .within(() => {
+        cy.getByData("child").should("have.length", 4)
+      })
+
+// this will not work
+const parents = cy.getByData("parent")
+const p1 = parents.eq(0)
+const p2 = parents.eq(1) // this not work (not found), because .eq(0) changed the parents variable
+
+
+
+
+
+
+
+
+
+
+
+

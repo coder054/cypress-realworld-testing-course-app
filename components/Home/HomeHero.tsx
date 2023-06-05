@@ -49,6 +49,17 @@ export default function HomeHero() {
 
   return (
     <div className="">
+      <div data-test="parent">
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+      </div>
+      <div data-test="parent">
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+        <div data-test="child"></div>
+      </div>
       <div className="relative overflow-hidden">
         <main>
           <div className="pt-10 bg-white sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
@@ -78,7 +89,10 @@ export default function HomeHero() {
                                 className="absolute h-6 w-6 text-blue-500"
                                 aria-hidden="true"
                               />
-                              <p className="ml-9 text-lg leading-6 font-medium text-gray-500">
+                              <p
+                                data-test="feature-name"
+                                className="ml-9 text-lg leading-6 font-medium text-gray-500"
+                              >
                                 {feature.name}
                               </p>
                             </dt>
