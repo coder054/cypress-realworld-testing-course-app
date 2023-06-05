@@ -64,7 +64,233 @@ const p2 = parents.eq(1) // this not work (not found), because .eq(0) changed th
 
 
 
+/////////////////////// get Texts of list
+const texts = cy.getByData("feature-name")
+      .invoke("text")
+      .should("eq", "4 Courses25+ LessonsFree and Open Source")
 
 
 
 
+
+
+/////////////// get
+cy.get('ul li:first').should('have.class', 'active')
+cy.get('[data-test-id="test-example"]').should('have.length', 5)
+cy.get('form').within(() => {
+  cy.get('input').type('Pamela') // Only yield inputs within form
+  cy.get('textarea').type('is a developer') // Only yield textareas within form
+})
+cy.get('ul#todos').as('todos')
+//...hack hack hack...
+//later retrieve the todos
+cy.get('@todos')
+
+
+
+
+
+/////////////// find
+cy.get('.article').find('footer') // Yield 'footer' within '.article'
+
+
+
+
+
+
+/////////////// Get vs Find
+The cy.get command always starts its search from the cy.root element.
+In most cases, it is the document element, unless used inside the .within() command.
+ The .find command starts its search from the current subject.
+
+
+
+
+
+
+
+
+///////////////// invoke (invoke jquery function)
+cy.get('.input').invoke('val').should('eq', 'foo') // Invoke the 'val' function
+cy.get('.modal').invoke('show') // Invoke the jQuery 'show' function
+cy.wrap({ animate: fn }).invoke('animate') // Invoke the 'animate' function
+
+
+
+
+
+
+
+
+//////////////////// its (Get a property's value on the previously yielded subject)
+cy.wrap({ width: '50' }).its('width') // Get the 'width' property
+cy.window().its('sessionStorage')
+cy.wrap({ age: 52 }).its('age').should('eq', 52) // true
+cy.wrap(['Wai Yan', 'Yu']).its(1).should('eq', 'Yu') // true
+cy.get('ul li') // this yields us a jquery object
+  .its('length') // calls 'length' property returning that value
+  .should('be.gt', 2) // ensure the length is greater than 2
+cy.getByData("feature-name").its('length').should('equal', 3)
+cy.getByData("feature-name").its('length').should('eq', 3)
+cy.getByData("feature-name").its('length').should('be.gt', 2)
+
+
+
+
+
+
+/////////////// eq
+
+
+
+
+
+
+
+/////////////// contains
+
+
+
+
+
+
+
+
+
+/////////////// filter
+
+
+
+
+
+/////////////// last
+
+
+
+
+
+
+/////////////// parent
+
+
+
+
+/////////////// parents
+
+
+
+
+
+/////////////// next
+
+
+
+
+/////////////// should
+
+
+
+
+/////////////// and
+
+
+
+
+
+
+/////////////// spy
+
+
+
+
+/////////////// stub
+export default {
+  getUppercase(str: string) {
+    return str.toUpperCase()
+  },
+}
+import util from "..."
+it.only("test", () => {
+    cy.stub(util, "getUppercase").returns("abc")
+    cy.wrap({
+      name: util.getUppercase("xyz"),
+    })
+      .its("name")
+      .should("eq", "abc")
+  })
+it.only("test2", () => {
+    cy.wrap({
+      name: util.getUppercase("xyz"),
+    })
+      .its("name")
+      .should("eq", "XYZ")
+  })
+
+
+
+/////////////// debug
+
+
+
+
+/////////////// log
+
+
+
+
+
+https://docs.cypress.io/examples/recipes
+
+
+
+
+
+
+
+
+
+https://github.com/paulfalgout/cypress-coverage-example/tree/master
+
+
+
+https://glebbahmutov.com/cypress-examples/commands/spies-stubs-clocks.html
+
+
+
+
+
+cy.get('[data-cy="submit"]').click()	 Always	Best. Isolated from all changes.
+
+
+
+
+
+
+
+// DONT DO THIS. IT DOES NOT WORK
+// THE WAY YOU THINK IT DOES.
+const a = cy.get('a')
+
+cy.visit('https://example.cypress.io')
+
+// nope, fails
+a.first().click()
+
+// Instead, do this.
+cy.get('a').as('links')
+cy.get('@links').first().click()
+
+Did you know?
+You rarely have to ever use const, let, or var in Cypress. If you're using them, you will want to do some refactoring.
+
+
+
+
+
+
+it('clicking + fires a change event with the incremented value', () => {
+  const onChangeSpy = cy.spy().as('onChangeSpy')
+  cy.mount(<Stepper onChange={onChangeSpy} />)
+  cy.get('[data-cy=increment]').click()
+  cy.get('@onChangeSpy').should('have.been.calledWith', 1)
+})

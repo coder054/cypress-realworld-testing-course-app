@@ -2,6 +2,8 @@ import React from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { CheckIcon } from "@heroicons/react/outline"
 import Subscribe from "../Subscribe"
+import util from "../../utils/utils"
+import constants from "../../constants/constants"
 
 const features = [
   {
@@ -49,11 +51,13 @@ export default function HomeHero() {
 
   return (
     <div className="">
+      {constants.ABC === "yes" && <div data-test="abc">abc</div>}
       <div data-test="parent">
-        <div data-test="child"></div>
-        <div data-test="child"></div>
-        <div data-test="child"></div>
+        <div data-test="child">{util.getUppercase("one")}</div>
+        <div data-test="child">{util.getUppercase("two")}</div>
+        <div data-test="child">{util.getUppercase("three")}</div>
       </div>
+
       <div data-test="parent">
         <div data-test="child"></div>
         <div data-test="child"></div>
